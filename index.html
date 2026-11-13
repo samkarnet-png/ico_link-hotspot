@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+
+<title>WiFi Hotspot - Buy Internet</title>
+
+<style>
+:root {
+    --background: #101827;
+    --card-left: #172333;
+    --card-right: #202f41;
+    --text: #f4f5f8;
+    --muted: #929bad;
+    --gold: #dba43e;
+    --blue: #4c9cf5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
+
+button, input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+/* MAIN CONTAINER */
+
+.container {
+    width: 100%;
+    max-width: 680px;
+    margin: auto;
+    padding: 20px 18px 35px;
+}
+
+/* TOP FEATURE */
+
+.feature {
+    height: 185px;
+    width: 100%;
+    margin-bottom: 45px;
+}
+
+/* PACKAGE BANNERS */
+
+.package {
+    width: 100%;
+    height: 185px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(
+        110deg,
+        #192536 0%,
+        #263649 100%
+    );
+    margin-bottom: 22px;
+    border: 1px solid rgba(255,255,255,.025);
+    transition: .2s;
+    cursor: pointer;
+}
+
+.package:active {
+    transform: scale(.985);
+}
+
+.package.selected {
+    outline: 2px solid var(--gold);
+}
+
+.package::before {
+    content: "";
+    position: absolute;
+    left: -100px;
+    top: -80px;
+    width: 390px;
+    height: 350px;
+    background: linear-gradient(
+        145deg,
+        #26384c,
+        #101827 70%
+    );
+    transform: rotate(-30deg);
+    border-right: 2px solid #26394d;
+    box-shadow: 12px 0 20px rgba(0,0,0,.3);
+}
+
+.package::after {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: 42%;
+    height: 290px;
+    width: 32px;
+    background: linear-gradient(
+        90deg,
+        #75451d,
+        #dba43e,
+        #fff0bb,
+        #c38b2c
+    );
+    transform: skewX(-37deg);
+    box-shadow: 30px 0 0 #172333,
+                34px 0 0 #c18a31,
+                37px 0 0 #f4d58a;
+}
+
+.package-left {
+    width: 48%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 25px;
+}
+
+.unlimited {
+    font-family: Impact, "Arial Black", sans-serif;
+    font-style: italic;
+    font-size: clamp(25px, 6vw, 36px);
+    letter-spacing: -1px;
+    font-weight: 900;
+    color: white;
+    text-shadow: 1px 2px 3px rgba(0,0,0,.3);
+    transform: skewX(-7deg);
+}
+
+.duration {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #e5a23b;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.clock {
+    font-size: 18px;
+}
+
+.package-right {
+    width: 51%;
+    z-index: 3;
+    position: relative;
+    text-align: center;
+    padding: 0 8px 0 20px;
+}
+
+.package-name {
+    font-size: clamp(14px, 3.8vw, 19px);
+    line-height: 1.5;
+    color: #e4e8ee;
+    margin-bottom: 5px;
+}
+
+.package-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+/* HOW TO CONNECT */
+
+.instructions {
+    text-align: center;
+    padding: 30px 5px 35px;
+    margin: 10px 0 20px;
+}
+
+.instructions h2 {
+    font-size: 21px;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.steps {
+    text-align: left;
+    max-width: 530px;
+    margin: auto;
+    padding-left: 25px;
+}
+
+.steps li {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+    padding-left: 3px;
+    margin-bottom: 5px;
+}
+
+.steps strong {
+    color: white;
+}
+
+.help {
+    margin-top: 17px;
+    color: #e4b46c;
+    font-size: 15px;
+    text-align: left;
+    max-width: 530px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.help a {
+    color: var(--blue);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* CONNECT BUTTONS */
+
+.connect-options {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin: 30px 0 55px;
+}
+
+.connect-options button {
+    background: #202d3d;
+    border: 1px solid #34445a;
+    color: white;
+    padding: 20px 25px;
+    font-size: 15px;
+    border-radius: 13px;
+    min-width: 130px;
+}
+
+.connect-options button:hover {
+    background: #293c53;
+}
+
+/* LOGIN AND PAYMENT PANELS */
+
+.form-panel {
+    display: none;
+    background: #192638;
+    border: 1px solid #33445b;
+    padding: 22px;
+    margin: 25px 0;
+    border-radius: 10px;
+}
+
+.form-panel.active {
+    display: block;
+}
+
+.form-panel h2 {
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.form-panel p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.form-panel label {
+    display: block;
+    color: #dce4ee;
+    font-size: 13px;
+    margin: 15px 0 7px;
+}
+
+.form-panel input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 7px;
+    border: 1px solid #394b62;
+    background: #101827;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+.form-panel input:focus {
+    border-color: var(--blue);
+}
+
+.selected-info {
+    padding: 13px;
+    background: #101827;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.action-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--blue);
+    border: none;
+    color: white;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.action-btn:hover {
+    background: #267bd7;
+}
+
+.close-btn {
+    float: right;
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 23px;
+}
+
+.message {
+    display: none;
+    background: #263649;
+    color: #f5d58e;
+    padding: 12px;
+    margin-top: 13px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.message.show {
+    display: block;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 30px 25px 25px;
+    max-width: 680px;
+    margin: auto;
+}
+
+.footer-section {
+    margin-bottom: 52px;
+}
+
+.footer-section h3 {
+    color: white;
+    font-size: 17px;
+    margin-bottom: 27px;
+}
+
+.footer-section p,
+.footer-section a {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    margin-bottom: 22px;
+    line-height: 1.5;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    border-top: 1px solid #354154;
+    padding-top: 28px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.socials {
+    display: flex;
+    gap: 27px;
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.socials a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+/* DESKTOP */
+
+@media(min-width: 700px) {
+    .container {
+        padding-top: 30px;
+    }
+
+    .package {
+        height: 205px;
+    }
+
+    .feature {
+        height: 205px;
+    }
+}
+
+/* SMALL PHONES */
+
+@media(max-width: 380px) {
+    .package {
+        height: 155px;
+    }
+
+    .package-left {
+        padding-left: 13px;
+    }
+
+    .unlimited {
+        font-size: 25px;
+    }
+
+    .package-price {
+        font-size: 23px;
+    }
+
+    .package::after {
+        left: 40%;
+    }
+
+    .connect-options button {
+        min-width: 0;
+        padding: 17px 16px;
+        font-size: 13px;
+    }
+
+    .steps li {
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <!-- FEATURED PACKAGE -->
+
+    <section class="feature">
+        <div class="package" onclick="choosePackage('Monthly Unlimited',900,'30 days')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">
+                    <span class="clock">◷</span> 30 d
+                </div>
+            </div>
+
+            <div class="package-right">
+                <div class="package-name">Monthly Unlimited</div>
+                <div class="package-price">900/-</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONNECTION OPTIONS -->
+
+    <div class="connect-options">
+        <button onclick="connectTV()">CONNECT TV</button>
+        <button onclick="showPanel('voucherPanel')">CONNECT</button>
+    </div>
+
+    <!-- HOW TO CONNECT -->
+
+    <section class="instructions">
+        <h2>HOW TO CONNECT</h2>
+
+        <ol class="steps">
+            <li><strong>CLICK</strong> your favorite <strong>PACKAGE.</strong></li>
+            <li><strong>ENTER</strong> your <strong>MPESA PHONE</strong> number.</li>
+            <li><strong>ENTER</strong> your <strong>MPESA PIN</strong> on the prompt to pay.</li>
+        </ol>
+
+        <div class="help">
+            Have a question? Contact
+            <a href="#" onclick="return false;">Hotspot Support</a>
+            ⓘ
+        </div>
+    </section>
+
+    <!-- ALL INTERNET PACKAGES -->
+
+    <section id="packages">
+
+        <div class="package" onclick="choosePackage('2 Hour Unlimited',10,'2 hours')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;2 h</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">2 Hour Unlimited</div>
+                <div class="package-price">10/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('5 Hours Unlimited',20,'5 hours')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;5 h</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">5 Hours Unlimited</div>
+                <div class="package-price">20/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('8 Hours Unlimited',30,'8 hours')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;8 h</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">8 Hours Unlimited</div>
+                <div class="package-price">30/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('12 Hours Unlimited',35,'12 hours')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;12 h</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">12 Hours Unlimited</div>
+                <div class="package-price">35/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('24 Hours Unlimited',45,'24 hours')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;24 h</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">24 Hours Unlimited</div>
+                <div class="package-price">45/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('24 Hours Unlimited 2 Device',70,'24 hours')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;24 h</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">24 Hours Unlimited 2 Device</div>
+                <div class="package-price">70/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('3 Days Unlimited',120,'3 days')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;3 d</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">3 Days Unlimited</div>
+                <div class="package-price">120/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('Weekly Unlimited',250,'7 days')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;7 d</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">Weekly Unlimited</div>
+                <div class="package-price">250/-</div>
+            </div>
+        </div>
+
+        <div class="package" onclick="choosePackage('Monthly Unlimited',900,'30 days')">
+            <div class="package-left">
+                <div class="unlimited">UNLIMITED</div>
+                <div class="duration">◷ &nbsp;30 d</div>
+            </div>
+            <div class="package-right">
+                <div class="package-name">Monthly Unlimited</div>
+                <div class="package-price">900/-</div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- M-PESA PAYMENT -->
+
+    <section class="form-panel" id="paymentPanel">
+
+        <button class="close-btn" onclick="hidePanels()">×</button>
+
+        <h2>Purchase Internet</h2>
+        <p>Confirm your package and enter the M-Pesa number you will use to pay.</p>
+
+        <div class="selected-info">
+            <span id="payPackage">Package</span>
+            <strong id="payPrice">KSh 0</strong>
+        </div>
+
+        <label for="mpesaPhone">M-Pesa Phone Number</label>
+        <input type="tel" id="mpesaPhone"
+            placeholder="07XXXXXXXX" maxlength="13">
+
+        <button class="action-btn" onclick="makePayment()">
+            PAY WITH M-PESA
+        </button>
+
+        <div class="message" id="paymentMessage"></div>
+
+    </section>
+
+    <!-- VOUCHER LOGIN -->
+
+    <section class="form-panel" id="voucherPanel">
+
+        <button class="close-btn" onclick="hidePanels()">×</button>
+
+        <h2>Connect to Internet</h2>
+        <p>Already purchased internet? Enter your voucher or login credentials.</p>
+
+        <label for="voucher">Voucher / Username</label>
+        <input type="text" id="voucher"
+            placeholder="Enter voucher code">
+
+        <label for="voucherPassword">Password (if required)</label>
+        <input type="password" id="voucherPassword"
+            placeholder="Enter password">
+
+        <button class="action-btn" onclick="loginVoucher()">
+            CONNECT NOW
+        </button>
+
+        <div class="message" id="voucherMessage"></div>
+
+    </section>
+
+    <!-- TV INFORMATION -->
+
+    <section class="form-panel" id="tvPanel">
+        <button class="close-btn" onclick="hidePanels()">×</button>
+
+        <h2>Connect Your TV</h2>
+        <p>
+            Select a package that supports your TV and contact the hotspot
+            provider if you need help registering your device.
+        </p>
+        <button class="action-btn" onclick="showPanel('paymentPanel')">
+            VIEW PURCHASE OPTIONS
+        </button>
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <section class="footer-section">
+        <h3>CONTACT</h3>
+        <p>Hotspot customer support</p>
+        <p>Contact your network provider for assistance.</p>
+    </section>
+
+    <section class="footer-section">
+        <h3>RESOURCES</h3>
+        <a href="#" onclick="resourceMessage('Knowledge Base');return false;">
+            Knowledge Base
+        </a>
+        <a href="#" onclick="resourceMessage('Check Balance');return false;">
+            Check Balance
+        </a>
+        <p id="deviceIP">My IP: Not available in preview</p>
+    </section>
+
+    <section class="footer-section">
+        <h3>LEGAL</h3>
+        <a href="#" onclick="resourceMessage('Privacy Policy');return false;">
+            Privacy Policy
+        </a>
+        <a href="#" onclick="resourceMessage('Terms & Conditions');return false;">
+            Terms & Conditions
+        </a>
+    </section>
+
+    <div class="footer-bottom">
+        © 2026 | All Rights Reserved.
+
+        <div class="socials">
+            <a href="#" aria-label="Facebook">f</a>
+            <a href="#" aria-label="Social media">◎</a>
+            <a href="#" aria-label="Twitter">♥</a>
+            <a href="#" aria-label="GitHub">◉</a>
+        </div>
+    </div>
+
+</footer>
+
+<script>
+
+let selectedPackage = null;
+
+function showPanel(id) {
+    hidePanels();
+
+    const panel = document.getElementById(id);
+    panel.classList.add("active");
+
+    panel.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+function hidePanels() {
+    document.querySelectorAll(".form-panel").forEach(panel => {
+        panel.classList.remove("active");
+    });
+}
+
+function choosePackage(name, price, duration) {
+
+    selectedPackage = {
+        name: name,
+        price: price,
+        duration: duration
+    };
+
+    document.getElementById("payPackage").textContent = name;
+    document.getElementById("payPrice").textContent =
+        "KSh " + price;
+
+    document.querySelectorAll(".package").forEach(card => {
+        card.classList.remove("selected");
+    });
+
+    event.currentTarget.classList.add("selected");
+
+    document.getElementById("paymentMessage").classList.remove("show");
+
+    showPanel("paymentPanel");
+}
+
+function makePayment() {
+
+    const phone = document.getElementById("mpesaPhone").value.trim();
+    const message = document.getElementById("paymentMessage");
+
+    if (!selectedPackage) {
+        showMessage(message, "Please select an internet package.");
+        return;
+    }
+
+    if (!/^(\+254|254|0)(7|1)\d{8}$/.test(phone)) {
+        showMessage(message, "Please enter a valid Kenyan M-Pesa number.");
+        return;
+    }
+
+    showMessage(
+        message,
+        "Payment demonstration only. M-Pesa STK Push has not yet been connected. No money has been charged."
+    );
+}
+
+function loginVoucher() {
+
+    const code = document.getElementById("voucher").value.trim();
+    const message = document.getElementById("voucherMessage");
+
+    if (!code) {
+        showMessage(message, "Please enter your voucher or username.");
+        return;
+    }
+
+    showMessage(
+        message,
+        "Voucher demonstration only. Router authentication has not yet been connected."
+    );
+}
+
+function connectTV() {
+    showPanel("tvPanel");
+}
+
+function showMessage(element, text) {
+    element.textContent = text;
+    element.classList.add("show");
+}
+
+function resourceMessage(name) {
+    alert(name + " will be available when the hotspot backend is connected.");
+}
+
+</script>
+
+</body>
+</html>
